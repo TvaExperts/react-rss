@@ -27,6 +27,7 @@
   "plugins": [
     "@typescript-eslint",
     "react",
+    "react-compiler",
     "react-hooks"
   ],
   "rules": {
@@ -48,7 +49,9 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react-compiler/react-compiler": "error",
+    "no-console": "off"
   },
   "settings": {
     "react": {
