@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from './header.module.css';
 
-import { getQueryFromLS, saveNewQueryInLS } from '../../utils/localStorage';
-
 import { Product } from '../../models/product';
 import { getProductsFromApi } from '../../services/api';
 import { TEXTS } from '../../texts';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface HeaderProps {
   setProducts: (data: Product[]) => void;
@@ -14,6 +13,8 @@ interface HeaderProps {
 }
 
 export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
+  const { setQueryInLS, getQueryFromLS } = useLocalStorage();
+
   const [query, setQuery] = useState(getQueryFromLS());
   const [hasError, setHasError] = useState(false);
 
@@ -21,7 +22,7 @@ export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
 
   async function handleClickFind() {
     setIsLoading(true);
-    saveNewQueryInLS(query);
+    setQueryInLS(query);
     const { products } = await getProductsFromApi(query);
     setProducts(products);
     setIsLoading(false);
