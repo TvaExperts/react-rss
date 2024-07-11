@@ -8,7 +8,7 @@ import { getProductsFromApi } from '../../services/api';
 import { TEXTS } from '../../texts';
 
 type HeaderProps = {
-  setItems: (data: Product[]) => void;
+  setProducts: (data: Product[]) => void;
   setIsLoading: (isLoading: boolean) => void;
   isLoading: boolean;
 };
@@ -53,11 +53,11 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   getData(query: string) {
-    const { setItems, setIsLoading } = this.props;
+    const { setProducts, setIsLoading } = this.props;
     setIsLoading(true);
     saveNewQueryInLS(query);
     getProductsFromApi(query).then((data) => {
-      setItems(data.products);
+      setProducts(data.products);
       setIsLoading(false);
     });
   }
@@ -82,7 +82,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
           onClick={this.handleClickFind}
           disabled={isLoading}
         >
-          {isLoading ? TEXTS.BUTTON_FIND_LOADING : TEXTS.BUTTON_FIND}
+          {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
         </button>
 
         <button type="button" onClick={this.handleClickError}>

@@ -4,20 +4,20 @@ import { Product } from '../../models/product';
 import { TEXTS } from '../../texts';
 
 type MainProps = {
-  data: Product[];
+  products: Product[];
   isLoading: boolean;
 };
 
-export class Products extends React.Component<MainProps> {
+export class ProductList extends React.Component<MainProps> {
   render() {
-    const { data, isLoading } = this.props;
+    const { products, isLoading } = this.props;
     if (isLoading) {
       return <main>{TEXTS.MAIN_LOADING}</main>;
     }
     return (
       <main>
-        {data.length ? (
-          data.map((product) => {
+        {products.length ? (
+          products.map((product) => {
             return <ProductCard product={product} key={product.id} />;
           })
         ) : (

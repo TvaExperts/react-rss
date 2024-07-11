@@ -1,7 +1,7 @@
 enum TEXTS {
   INPUT_PLACEHOLDER = 'Search products...',
   BUTTON_FIND = 'Search',
-  BUTTON_FIND_LOADING = 'Loading...',
+  LOADING = 'Loading...',
   BUTTON_ERROR = 'Break',
   ERROR_TEXT = 'Something went wrong!',
   GO_TO_MAIN = 'Go to main!',
