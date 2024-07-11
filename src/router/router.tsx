@@ -2,13 +2,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from './routes';
 
 import { HomePage } from '../pages/home/homePage';
-import { NotFoundPage } from '../pages/404/notFoundPage';
+import { ErrorPagePage } from '../pages/errorPage/errorPagePage';
 
 const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
     element: <HomePage />,
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorPagePage />,
 
     // children: [
     //   {
