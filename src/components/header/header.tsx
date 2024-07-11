@@ -16,9 +16,6 @@ export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
   const { setQueryInLS, getQueryFromLS } = useLocalStorage();
 
   const [query, setQuery] = useState(getQueryFromLS());
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) throw new Error(TEXTS.ERROR_TEXT);
 
   async function handleClickFind() {
     setIsLoading(true);
@@ -43,10 +40,6 @@ export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
       />
       <button type="button" onClick={handleClickFind} disabled={isLoading}>
         {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
-      </button>
-
-      <button type="button" onClick={() => setHasError(true)}>
-        {TEXTS.BUTTON_ERROR}
       </button>
     </header>
   );
