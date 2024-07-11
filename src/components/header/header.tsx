@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 
 import { Product } from '../../models/product';
-import { getProductsFromApi } from '../../services/api';
+import { getProductsFromApi, SEARCH_PARAMETERS } from '../../services/api';
 import { TEXTS } from '../../texts';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
@@ -23,10 +24,14 @@ export function Header({
 
   const [query, setQuery] = useState(getQueryFromLS());
 
+  const [searchParams] = useSearchParams();
+
+  const page = Number(searchParams.get(SEARCH_PARAMETERS.page));
+
   async function handleClickFind() {
     setIsLoading(true);
     setQueryInLS(query);
-    const { products, total } = await getProductsFromApi({ query, page: 1 });
+    const { products, total } = await getProductsFromApi({ query, page });
     setTotalProducts(total);
     setProducts(products);
     setIsLoading(false);
@@ -34,7 +39,7 @@ export function Header({
 
   useEffect(() => {
     handleClickFind();
-  }, []);
+  }, [page]);
 
   return (
     <header className={styles.header}>

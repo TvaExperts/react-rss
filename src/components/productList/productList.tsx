@@ -6,30 +6,22 @@ import { TEXTS } from '../../texts';
 type ProductListProps = {
   products: Product[];
   isLoading: boolean;
-  totalProducts: number;
 };
 
-export function ProductList({
-  products,
-  isLoading,
-  totalProducts,
-}: ProductListProps) {
+export function ProductList({ products, isLoading }: ProductListProps) {
   if (isLoading) {
-    return <main>{TEXTS.MAIN_LOADING}</main>;
+    return <p>{TEXTS.MAIN_LOADING}</p>;
+  }
+
+  if (products.length === 0) {
+    return <p>{TEXTS.NOT_FOUND}</p>;
   }
 
   return (
-    <main>
-      {products.length ? (
-        products.map((product) => {
-          return <ProductCard product={product} key={product.id} />;
-        })
-      ) : (
-        <p>
-          {TEXTS.NOT_FOUND}
-          {totalProducts}
-        </p>
-      )}
-    </main>
+    <ul>
+      {products.map((product) => {
+        return <ProductCard product={product} key={product.id} />;
+      })}
+    </ul>
   );
 }

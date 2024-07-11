@@ -3,7 +3,12 @@ import { Product } from '../models/product';
 
 const API_URL = 'https://dummyjson.com/products';
 
-const PRODUCTS_PER_PAGE = 10;
+export const PRODUCTS_PER_PAGE = 15;
+
+export const SEARCH_PARAMETERS = {
+  page: 'page',
+  query: 'query',
+} as const;
 
 interface ProductsApiResponse {
   total: number;
@@ -22,7 +27,8 @@ interface RequestParams {
 function createRequestUrl({ query, page }: RequestParams) {
   const searchParams = new URLSearchParams();
 
-  if (page) searchParams.set('skip', (page * PRODUCTS_PER_PAGE).toString());
+  if (page && page > 1)
+    searchParams.set('skip', ((page - 1) * PRODUCTS_PER_PAGE).toString());
   if (query) searchParams.set('q', query);
   searchParams.set('limit', PRODUCTS_PER_PAGE.toString());
 

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Header } from '../../components/header/header';
 import { Product } from '../../models/product';
 import { TEXTS } from '../../texts';
 import { ProductList } from '../../components/productList/productList';
+import { Pagination } from '../../components/pagination/pagination';
 
 export function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -23,11 +24,10 @@ export function HomePage() {
         {isLoading && TEXTS.LOADING}
         {!isLoading && products.length === 0 && TEXTS.NOT_FOUND}
         {!isLoading && products.length > 0 && (
-          <ProductList
-            products={products}
-            isLoading={isLoading}
-            totalProducts={totalProducts}
-          />
+          <>
+            <Pagination totalProducts={totalProducts} />
+            <ProductList products={products} isLoading={isLoading} />
+          </>
         )}
       </main>
     </>
