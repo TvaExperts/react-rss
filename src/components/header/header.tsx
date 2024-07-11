@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 
 import { Product } from '../../models/product';
-import { getProductsFromApi, SEARCH_PARAMETERS } from '../../services/api';
+import { getProducts, SEARCH_PARAMETERS } from '../../services/api';
 import { TEXTS } from '../../texts';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
@@ -31,7 +31,7 @@ export function Header({
   async function handleClickFind() {
     setIsLoading(true);
     setQueryInLS(query);
-    const { products, total } = await getProductsFromApi({ query, page });
+    const { products, total } = await getProducts({ query, page });
     setTotalProducts(total);
     setProducts(products);
     setIsLoading(false);

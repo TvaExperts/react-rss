@@ -2,20 +2,23 @@ import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from './routes';
 
 import { HomePage } from '../pages/home/homePage';
-import { ErrorPagePage } from '../pages/errorPage/errorPagePage';
+import { ErrorPage } from '../pages/errorPage/errorPage';
+import { ProductDetails } from '../components/productDetails/productDetails';
+import { productDetailsLoader } from './loaders';
 
 const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
     element: <HomePage />,
-    errorElement: <ErrorPagePage />,
+    errorElement: <ErrorPage />,
 
-    // children: [
-    //   {
-    //     path: `${ROUTES.PRODUCT}/:productId`,
-    //     element: <ProductCard />,
-    //   },
-    // ],
+    children: [
+      {
+        path: `${ROUTES.PRODUCT}/:productId`,
+        loader: productDetailsLoader,
+        element: <ProductDetails />,
+      },
+    ],
   },
 ]);
 

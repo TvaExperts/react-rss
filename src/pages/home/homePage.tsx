@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Outlet } from 'react-router-dom';
+import styles from './homePage.module.css';
 import { Header } from '../../components/header/header';
 import { Product } from '../../models/product';
 import { TEXTS } from '../../texts';
@@ -20,14 +22,17 @@ export function HomePage() {
         setTotalProducts={setTotalProducts}
       />
 
-      <main>
+      <main className={styles.main}>
         {isLoading && TEXTS.LOADING}
         {!isLoading && products.length === 0 && TEXTS.NOT_FOUND}
         {!isLoading && products.length > 0 && (
-          <>
-            <Pagination totalProducts={totalProducts} />
-            <ProductList products={products} isLoading={isLoading} />
-          </>
+          <div>
+            <div>
+              <Pagination totalProducts={totalProducts} />
+              <ProductList products={products} isLoading={isLoading} />
+            </div>
+            <Outlet />
+          </div>
         )}
       </main>
     </>

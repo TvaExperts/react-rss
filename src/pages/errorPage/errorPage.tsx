@@ -7,7 +7,7 @@ import {
 import { TEXTS } from '../../texts';
 import { ROUTES } from '../../router/routes';
 
-export function ErrorPagePage() {
+export function ErrorPage() {
   const navigate = useNavigate();
   const error = useRouteError();
 

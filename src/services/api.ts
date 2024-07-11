@@ -15,9 +15,9 @@ interface ProductsApiResponse {
   products: Product[];
 }
 
-// interface ProductApiResponse {
-//   data: Product;
-// }
+interface ProductApiResponse {
+  data: Product;
+}
 
 interface RequestParams {
   query?: string;
@@ -35,7 +35,7 @@ function createRequestUrl({ query, page }: RequestParams) {
   return `${API_URL}${query ? '/search?' : '?'}${searchParams.toString()}`;
 }
 
-async function getProductsFromApi(
+async function getProducts(
   requestParams: RequestParams
 ): Promise<ProductsApiResponse> {
   const requestUrl = createRequestUrl(requestParams);
@@ -48,5 +48,14 @@ async function getProductsFromApi(
   }
 }
 
-export { getProductsFromApi };
-export type { ProductsApiResponse };
+function getProductByIdPromise(id: string): Promise<ProductApiResponse> {
+  try {
+    return axios.get(`${API_URL}/${id}`);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+}
+
+export { getProducts, getProductByIdPromise };
+export type { ProductsApiResponse, ProductApiResponse };
