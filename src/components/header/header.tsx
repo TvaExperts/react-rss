@@ -9,10 +9,16 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 interface HeaderProps {
   setProducts: (data: Product[]) => void;
   setIsLoading: (isLoading: boolean) => void;
+  setTotalProducts: (totalProducts: number) => void;
   isLoading: boolean;
 }
 
-export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
+export function Header({
+  setProducts,
+  setIsLoading,
+  isLoading,
+  setTotalProducts,
+}: HeaderProps) {
   const { setQueryInLS, getQueryFromLS } = useLocalStorage();
 
   const [query, setQuery] = useState(getQueryFromLS());
@@ -20,7 +26,8 @@ export function Header({ setProducts, setIsLoading, isLoading }: HeaderProps) {
   async function handleClickFind() {
     setIsLoading(true);
     setQueryInLS(query);
-    const { products } = await getProductsFromApi(query);
+    const { products, total } = await getProductsFromApi({ query, page: 1 });
+    setTotalProducts(total);
     setProducts(products);
     setIsLoading(false);
   }
