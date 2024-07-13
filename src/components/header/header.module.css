@@ -1,0 +1,8 @@
+.header {
+  display: flex;
+  gap: 20px;
+}
+
+.findInput {
+  width: 250px;
+}
