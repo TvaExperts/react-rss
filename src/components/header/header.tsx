@@ -53,6 +53,7 @@ export function Header({
       />
       <button
         type="button"
+        className={styles.searchButton}
         onClick={handleClickFind}
         disabled={isLoading}
         data-testid="search-button"

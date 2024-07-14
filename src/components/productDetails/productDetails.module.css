@@ -26,3 +26,7 @@
   background-color: white;
   border: blue solid 1px;
 }
+
+.productImage {
+  max-height: 400px;
+}

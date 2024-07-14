@@ -26,13 +26,13 @@ export function HomePage() {
         {isLoading && TEXTS.LOADING}
         {!isLoading && products.length === 0 && TEXTS.NOT_FOUND}
         {!isLoading && products.length > 0 && (
-          <div>
+          <>
             <div>
               <Pagination totalProducts={totalProducts} />
               <ProductList products={products} isLoading={isLoading} />
             </div>
             <Outlet />
-          </div>
+          </>
         )}
       </main>
     </>

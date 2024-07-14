@@ -1,8 +1,15 @@
 .header {
+  width: 45%;
   display: flex;
   gap: 20px;
+  padding: 20px;
+  justify-content: center;
 }
 
 .findInput {
-  width: 250px;
+  width: 200px;
+}
+
+.searchButton {
+  width: 75px;
 }

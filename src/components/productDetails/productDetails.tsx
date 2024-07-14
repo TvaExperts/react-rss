@@ -47,13 +47,16 @@ export function ProductDetails() {
             errorElement={<p>{TEXTS.ERROR_TEXT}</p>}
           >
             {(productApiResponse: Product) => {
-              // console.log(productApiResponse);
               const { title, description, images } = productApiResponse;
               return (
                 <>
                   <h2 data-testid="product-title">{title}</h2>
                   <p data-testid="product-description">{description}</p>
-                  <img src={images[0]} alt={title} />
+                  <img
+                    src={images[0]}
+                    alt={title}
+                    className={styles.productImage}
+                  />
                   <br />
                   <button
                     type="button"
