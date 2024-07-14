@@ -32,7 +32,7 @@ export function ErrorPage() {
     <main>
       <p>{TEXTS.ERROR_TEXT}</p>
       <p>
-        <i>{errorMessage}</i>
+        <i data-testid="error-message">{errorMessage}</i>
       </p>
       <button type="button" onClick={handleGoToMain}>
         {TEXTS.GO_TO_MAIN}
