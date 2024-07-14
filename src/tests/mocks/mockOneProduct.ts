@@ -1,6 +1,6 @@
 import { Product } from '../../models/product';
 
-export const mockProduct: Product = {
+export const mockOneProduct: Product = {
   id: 11,
   title: 'perfume Oil',
   description:

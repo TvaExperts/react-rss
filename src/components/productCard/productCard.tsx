@@ -16,11 +16,11 @@ export function ProductCard({ product }: { product: Product }) {
   const [queryParams] = useSearchParams();
 
   return (
-    <div className={styles.block}>
+    <li className={styles.block}>
       <Link to={`${ROUTES.PRODUCT}/${product.id}?${queryParams.toString()}`}>
         <span className={styles.title}>{product.title} </span>
       </Link>
       {shortDescription ? <span> {shortDescription}...</span> : ''}
-    </div>
+    </li>
   );
 }
