@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Product } from '../models/product';
 
-const API_URL = 'https://dummyjson.com/products';
+export const API_URL = 'https://dummyjson.com/products';
 
 export const PRODUCTS_PER_PAGE = 15;
 
@@ -10,12 +10,12 @@ export const SEARCH_PARAMETERS = {
   query: 'query',
 } as const;
 
-interface ProductsApiResponse {
+export interface ProductsApiResponse {
   total: number;
   products: Product[];
 }
 
-interface ProductApiResponse {
+export interface ProductApiResponse {
   data: Product;
 }
 
@@ -35,7 +35,7 @@ function createRequestUrl({ query, page }: RequestParams) {
   return `${API_URL}${query ? '/search?' : '?'}${searchParams.toString()}`;
 }
 
-async function getProducts(
+export async function getProducts(
   requestParams: RequestParams
 ): Promise<ProductsApiResponse> {
   const requestUrl = createRequestUrl(requestParams);
@@ -48,7 +48,7 @@ async function getProducts(
   }
 }
 
-function getProductByIdPromise(id: string): Promise<ProductApiResponse> {
+export function getProductByIdPromise(id: string): Promise<ProductApiResponse> {
   try {
     return axios.get(`${API_URL}/${id}`);
   } catch (error) {
@@ -56,6 +56,3 @@ function getProductByIdPromise(id: string): Promise<ProductApiResponse> {
     throw error;
   }
 }
-
-export { getProducts, getProductByIdPromise };
-export type { ProductsApiResponse, ProductApiResponse };

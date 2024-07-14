@@ -51,7 +51,8 @@
     "import/prefer-default-export": "off",
     "react/prefer-stateless-function": "off",
     "react-compiler/react-compiler": "error",
-    "no-console": "off"
+    "no-console": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "settings": {
     "react": {
