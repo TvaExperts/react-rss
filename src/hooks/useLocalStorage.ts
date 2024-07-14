@@ -1,4 +1,4 @@
-const KEY_IN_LS = 'rss-react-course';
+export const KEY_IN_LS = 'rss-react-course';
 
 export function useLocalStorage() {
   function setQueryInLS(value: string) {

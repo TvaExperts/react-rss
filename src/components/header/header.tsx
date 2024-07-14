@@ -35,7 +35,7 @@ export function Header({
     setTotalProducts(total);
     setProducts(products);
     setIsLoading(false);
-  }, [query, page]);
+  }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
 
   useEffect(() => {
     handleClickFind();
@@ -49,8 +49,14 @@ export function Header({
         placeholder={TEXTS.INPUT_PLACEHOLDER}
         value={query}
         onChange={(event) => setQuery(event.target.value)}
+        data-testid="search-input"
       />
-      <button type="button" onClick={handleClickFind} disabled={isLoading}>
+      <button
+        type="button"
+        onClick={handleClickFind}
+        disabled={isLoading}
+        data-testid="search-button"
+      >
         {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
       </button>
     </header>
