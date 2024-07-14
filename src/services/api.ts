@@ -48,9 +48,13 @@ export async function getProducts(
   }
 }
 
-export function getProductByIdPromise(id: string): Promise<ProductApiResponse> {
+export async function getProductByIdPromise(
+  id: string
+): Promise<ProductApiResponse> {
   try {
-    return axios.get(`${API_URL}/${id}`);
+    const res = await fetch(`${API_URL}/${id}`);
+    return await res.json();
+    // return axios.get(`${API_URL}/${id}`);
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;

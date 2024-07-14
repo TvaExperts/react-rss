@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { ROUTES } from './routes';
 
 import { HomePage } from '../pages/home/homePage';
@@ -6,7 +6,7 @@ import { ErrorPage } from '../pages/errorPage/errorPage';
 import { ProductDetails } from '../components/productDetails/productDetails';
 import { productDetailsLoader } from './loaders';
 
-const router = createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: ROUTES.HOME,
     element: <HomePage />,
@@ -20,6 +20,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
 
-export { router };
+const router = createBrowserRouter(routes);
+
+export { router, routes };

@@ -38,7 +38,7 @@ export function ProductDetails() {
       ref={overlayRef}
       role="presentation"
     >
-      <article className={styles.productDetails}>
+      <article className={styles.productDetails} data-testid="product-details">
         <React.Suspense fallback={<p>{TEXTS.LOADING}</p>}>
           <Await
             resolve={productResponsePromise}
