@@ -6,7 +6,7 @@ import { ROUTES } from '../../router/routes';
 import { mockOneProduct } from '../../tests/mocks/mockOneProduct';
 
 describe('Tests for the Detailed Card component', () => {
-  it('Should renders with loader status when open details page', async () => {
+  it('Check that a loading indicator is displayed while fetching data', async () => {
     renderWithRouter(null, `/`, routes);
 
     const links = await screen.findAllByRole('link');
@@ -30,7 +30,7 @@ describe('Tests for the Detailed Card component', () => {
     expect(description.textContent).toBe(mockOneProduct.description);
   });
 
-  it('Should close page when click button close ', async () => {
+  it('Ensure that clicking the close button hides the component ', async () => {
     renderWithRouter(null, `${ROUTES.PRODUCT}/${mockOneProduct.id}`, routes);
 
     const closeButton = await screen.findByTestId('details-close');

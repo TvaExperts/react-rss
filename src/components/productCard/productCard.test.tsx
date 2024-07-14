@@ -12,7 +12,7 @@ describe('Tests for the Card component', () => {
     vi.restoreAllMocks();
   });
 
-  it('Should renders product title and short description', () => {
+  it('Ensure that the card component renders the relevant card data', () => {
     const routerObject: RouteObject = {
       element: <ProductCard product={mockOneProduct} />,
       path: '/',
@@ -34,7 +34,7 @@ describe('Tests for the Card component', () => {
     );
   });
 
-  it('Should opens a detailed card component', async () => {
+  it('Validate that clicking on a card opens a detailed card component', async () => {
     const routerObject: RouteObject = {
       element: <ProductCard product={mockOneProduct} />,
       path: '/',
