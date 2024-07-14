@@ -8,12 +8,12 @@ import {
 } from 'react-router-dom';
 import styles from './productDetails.module.css';
 
-import { ProductApiResponse } from '../../services/api';
 import { TEXTS } from '../../texts';
 import { ROUTES } from '../../router/routes';
+import { Product } from '../../models/product';
 
 type LoaderData = {
-  productResponsePromise: Promise<ProductApiResponse>;
+  productResponsePromise: Promise<Product>;
 };
 
 export function ProductDetails() {
@@ -39,21 +39,28 @@ export function ProductDetails() {
       role="presentation"
     >
       <article className={styles.productDetails} data-testid="product-details">
-        <React.Suspense fallback={<p>{TEXTS.LOADING}</p>}>
+        <React.Suspense
+          fallback={<p data-testid="details-loading">{TEXTS.LOADING}</p>}
+        >
           <Await
             resolve={productResponsePromise}
             errorElement={<p>{TEXTS.ERROR_TEXT}</p>}
           >
-            {(productApiResponse: ProductApiResponse) => {
-              const { title, description, images } = productApiResponse.data;
+            {(productApiResponse: Product) => {
+              // console.log(productApiResponse);
+              const { title, description, images } = productApiResponse;
               return (
                 <>
-                  <h2>{title}</h2>
-                  <p>{description}</p>
+                  <h2 data-testid="product-title">{title}</h2>
+                  <p data-testid="product-description">{description}</p>
                   <img src={images[0]} alt={title} />
                   <br />
-                  <button type="button" onClick={handleCloseDetails}>
-                    {TEXTS.LOADING}
+                  <button
+                    type="button"
+                    onClick={handleCloseDetails}
+                    data-testid="details-close"
+                  >
+                    Close
                   </button>
                 </>
               );

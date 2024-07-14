@@ -48,12 +48,9 @@ describe('Tests for the Card component', () => {
   });
 
   it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
-    const mockResponse = new Response(
-      JSON.stringify({ data: mockOneProduct }),
-      {
-        status: 200,
-      }
-    );
+    const mockResponse = new Response(JSON.stringify(mockOneProduct), {
+      status: 200,
+    });
 
     const fetchMock = vi.fn(() => Promise.resolve(mockResponse));
     global.fetch = fetchMock;

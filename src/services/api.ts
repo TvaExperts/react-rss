@@ -15,10 +15,6 @@ export interface ProductsApiResponse {
   products: Product[];
 }
 
-export interface ProductApiResponse {
-  data: Product;
-}
-
 interface RequestParams {
   query?: string;
   page?: number;
@@ -48,13 +44,10 @@ export async function getProducts(
   }
 }
 
-export async function getProductByIdPromise(
-  id: string
-): Promise<ProductApiResponse> {
+export async function getProductByIdPromise(id: string): Promise<Product> {
   try {
     const res = await fetch(`${API_URL}/${id}`);
     return await res.json();
-    // return axios.get(`${API_URL}/${id}`);
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
