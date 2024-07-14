@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 
@@ -28,14 +28,14 @@ export function Header({
 
   const page = Number(searchParams.get(SEARCH_PARAMETERS.page));
 
-  async function handleClickFind() {
+  const handleClickFind = useCallback(async () => {
     setIsLoading(true);
     setQueryInLS(query);
     const { products, total } = await getProducts({ query, page });
     setTotalProducts(total);
     setProducts(products);
     setIsLoading(false);
-  }
+  }, [query, page]);
 
   useEffect(() => {
     handleClickFind();
