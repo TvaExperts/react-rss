@@ -2,7 +2,7 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ProductsApiResponse } from '../services/api';
+import { productApi, ProductsApiResponse } from '../services/api';
 import { Product } from '../models/product';
 
 interface ProductsState {
@@ -12,7 +12,7 @@ interface ProductsState {
   query: string;
   page: number;
   products: Product[];
-  selectedProductsId: string[];
+  selectedProductsId: number[];
 }
 
 const initialState: ProductsState = {
@@ -44,13 +44,13 @@ const ProductsSlice = createSlice({
       state.selectedProductsId = [];
       return state;
     },
-    selectProduct(state, { payload }: PayloadAction<string>) {
+    selectProduct(state, { payload }: PayloadAction<number>) {
       state.selectedProductsId.push(payload);
       return state;
     },
-    unselectProduct(state, { payload }: PayloadAction<string>) {
+    unselectProduct(state, { payload }: PayloadAction<number>) {
       state.selectedProductsId = state.selectedProductsId.filter(
-        (value: string) => value !== payload
+        (value: number) => value !== payload
       );
       return state;
     },
@@ -58,6 +58,34 @@ const ProductsSlice = createSlice({
       state.selectedProductsId = [];
       return state;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        productApi.endpoints?.getProductsByParams.matchFulfilled,
+        (state) => {
+          state.isLoading = false;
+          state.isError = false;
+        }
+      )
+      .addMatcher(
+        productApi.endpoints?.getProductsByParams.matchRejected,
+        (state) => {
+          state.products = [];
+          state.total = 0;
+          state.isLoading = false;
+          state.isError = true;
+        }
+      )
+      .addMatcher(
+        productApi.endpoints?.getProductsByParams.matchPending,
+        (state) => {
+          state.products = [];
+          state.total = 0;
+          state.isLoading = true;
+          state.isError = false;
+        }
+      );
   },
 });
 

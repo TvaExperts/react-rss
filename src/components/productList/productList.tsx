@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { ProductCard } from '../productCard/productCard';
-import { Product } from '../../models/product';
+
 import { TEXTS } from '../../texts';
+import { useAppSelector } from '../../hooks/redux';
+import { useGetProductsByParamsQuery } from '../../services/api';
+import { productsActions } from '../../reducers/productsSlice';
 
-type ProductListProps = {
-  products: Product[];
-  isLoading: boolean;
-};
+export function ProductList() {
+  const dispatch = useDispatch();
+  const { products, isLoading } = useAppSelector(
+    (state) => state.productsReducer
+  );
 
-export function ProductList({ products, isLoading }: ProductListProps) {
+  const { data: productsData } = useGetProductsByParamsQuery({
+    page: 1,
+    query: '',
+  });
+
+  useEffect(() => {
+    dispatch(productsActions.setProductsData(productsData || null));
+  }, [dispatch, productsData]);
+
   if (isLoading) {
     return <p>{TEXTS.MAIN_LOADING}</p>;
   }

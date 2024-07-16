@@ -19,10 +19,7 @@ export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
-    getSearchProductsOnPage: builder.query<
-      ProductsApiResponse,
-      AppSearchParams
-    >({
+    getProductsByParams: builder.query<ProductsApiResponse, AppSearchParams>({
       query: (appSearchParams) => ({
         url: `/search`,
         params: {
@@ -39,5 +36,5 @@ export const productApi = createApi({
   }),
 });
 
-export const { useGetProductByIdQuery, useGetSearchProductsOnPageQuery } =
+export const { useGetProductByIdQuery, useGetProductsByParamsQuery } =
   productApi;

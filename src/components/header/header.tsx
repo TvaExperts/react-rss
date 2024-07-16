@@ -33,7 +33,7 @@ export function Header({
     // const { products, total } = await getProducts({ query, page });
     // setTotalProducts(total);
     // setProducts(products);
-    // setIsLoading(false);
+    setIsLoading(false);
     console.log('setProducts');
   }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
 

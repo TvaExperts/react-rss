@@ -1,5 +1,5 @@
 import { defer, LoaderFunctionArgs } from 'react-router-dom';
-import { getProductByIdPromise } from '../services/api';
+import { getProductByIdPromise } from '../services/apiOld';
 
 export async function productDetailsLoader({ params }: LoaderFunctionArgs) {
   return defer({

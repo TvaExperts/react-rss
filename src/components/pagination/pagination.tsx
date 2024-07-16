@@ -1,6 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import styles from './pagination.module.css';
-import { PRODUCTS_PER_PAGE, SEARCH_PARAMETERS } from '../../services/api';
+// import { PRODUCTS_PER_PAGE } from '../../services/api';
+import { SEARCH_PARAMETERS } from '../../services/apiOld';
+import { PRODUCTS_PER_PAGE } from '../../services/api';
 
 type PaginationProps = {
   totalProducts: number;
@@ -9,7 +11,7 @@ type PaginationProps = {
 export function Pagination({ totalProducts }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = Number(searchParams.get(SEARCH_PARAMETERS.page)) || 1;
+  const page = 1; // Number(searchParams.get(SEARCH_PARAMETERS.page)) || 1;
 
   const highestPageNumber = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
