@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 
 import { Product } from '../../models/product';
-import { getProducts, SEARCH_PARAMETERS } from '../../services/api';
 import { TEXTS } from '../../texts';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
@@ -24,17 +23,18 @@ export function Header({
 
   const [query, setQuery] = useState(getQueryFromLS());
 
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
 
-  const page = Number(searchParams.get(SEARCH_PARAMETERS.page));
+  const page = 1; // Number(searchParams.get(SEARCH_PARAMETERS.page));
 
   const handleClickFind = useCallback(async () => {
     setIsLoading(true);
     setQueryInLS(query);
-    const { products, total } = await getProducts({ query, page });
-    setTotalProducts(total);
-    setProducts(products);
-    setIsLoading(false);
+    // const { products, total } = await getProducts({ query, page });
+    // setTotalProducts(total);
+    // setProducts(products);
+    // setIsLoading(false);
+    console.log('setProducts');
   }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
 
   useEffect(() => {

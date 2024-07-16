@@ -9,6 +9,8 @@ interface ProductsState {
   isLoading: boolean;
   isError: boolean;
   total: number;
+  query: string;
+  page: number;
   products: Product[];
   selectedProductsId: string[];
 }
@@ -18,6 +20,8 @@ const initialState: ProductsState = {
   isError: false,
   products: [],
   selectedProductsId: [],
+  query: '',
+  page: 1,
   total: 0,
 };
 
