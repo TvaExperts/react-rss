@@ -1,7 +1,8 @@
 import { userEvent } from '@testing-library/user-event';
 import { renderWithRouter } from '../../tests/helpers/renderWithRouter';
-import { KEY_IN_LS } from '../../hooks/useLocalStorage';
 import { routes } from '../../router/router';
+
+const KEY_IN_LS = 'test';
 
 describe('Header tests', () => {
   it('Verify that clicking the Search button saves the entered value to the local storage', async () => {

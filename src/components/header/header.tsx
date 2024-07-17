@@ -3,15 +3,16 @@ import { useDispatch } from 'react-redux';
 import styles from './header.module.css';
 
 import { TEXTS } from '../../../public/texts';
-import { useAppSelector } from '../../hooks/redux';
 
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 import { productsActions } from '../../reducers/productsSlice';
+import { selectIsLoadingProducts, useAppSelector } from '../../store';
 
 export function Header() {
   const dispatch = useDispatch();
 
-  const { isLoading } = useAppSelector((store) => store.productsReducer);
+  const isLoading = useAppSelector(selectIsLoadingProducts);
+
   const { query, handleNewSearch } = useAppSearchParams();
 
   const [inputQueryValue, setInputQueryValue] = useState<string>(query);

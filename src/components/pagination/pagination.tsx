@@ -1,11 +1,11 @@
 import { PRODUCTS_PER_PAGE } from '../../services/api';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
-import { useAppSelector } from '../../hooks/redux';
 
 import styles from './pagination.module.css';
+import { selectTotalProducts, useAppSelector } from '../../store';
 
 export function Pagination() {
-  const { total } = useAppSelector((store) => store.productsReducer);
+  const total = useAppSelector(selectTotalProducts);
   const { page, goToPage } = useAppSearchParams();
 
   const highestPageNumber = Math.ceil(total / PRODUCTS_PER_PAGE);

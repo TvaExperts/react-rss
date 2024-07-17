@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux';
 import { useGetProductByIdQuery } from '../../services/api';
 import { productActions } from '../../reducers/productSlice';
 import styles from './productDetails.module.css';
 import { ROUTES } from '../../router/routes';
 import { TEXTS } from '../../../public/texts';
+import { useAppDispatch } from '../../store';
 
 export function ProductDetails() {
   const dispatch = useAppDispatch();
@@ -32,7 +32,6 @@ export function ProductDetails() {
   }
 
   function handleClickOverlay(eventTarget: EventTarget) {
-    console.log('dsf');
     if (eventTarget === overlayRef.current) handleCloseDetails();
   }
 

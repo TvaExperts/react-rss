@@ -9,19 +9,15 @@ interface ProductsState {
   isLoading: boolean;
   isError: boolean;
   total: number;
-  query: string;
-  page: number;
   products: Product[];
-  selectedProductsId: number[];
+  selectedProductsId: Record<number, number | undefined>;
 }
 
 const initialState: ProductsState = {
   isLoading: false,
   isError: false,
   products: [],
-  selectedProductsId: [],
-  query: '',
-  page: 1,
+  selectedProductsId: {},
   total: 0,
 };
 
@@ -36,7 +32,7 @@ const ProductsSlice = createSlice({
       if (payload === undefined) {
         state.total = 0;
         state.products = [];
-        state.selectedProductsId = [];
+        state.selectedProductsId = {};
         return state;
       }
       state.total = payload.total;
@@ -44,17 +40,15 @@ const ProductsSlice = createSlice({
       return state;
     },
     selectProduct(state, { payload }: PayloadAction<number>) {
-      state.selectedProductsId.push(payload);
+      state.selectedProductsId[payload] = payload;
       return state;
     },
     unselectProduct(state, { payload }: PayloadAction<number>) {
-      state.selectedProductsId = state.selectedProductsId.filter(
-        (value: number) => value !== payload
-      );
+      state.selectedProductsId[payload] = undefined;
       return state;
     },
     unselectAllProducts(state) {
-      state.selectedProductsId = [];
+      state.selectedProductsId = {};
       return state;
     },
   },
