@@ -6,6 +6,7 @@ import { TEXTS } from '../../texts';
 import { useAppSelector } from '../../hooks/redux';
 import { useGetProductsByParamsQuery } from '../../services/api';
 import { productsActions } from '../../reducers/productsSlice';
+import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
 export function ProductList() {
   const dispatch = useDispatch();
@@ -13,9 +14,11 @@ export function ProductList() {
     (state) => state.productsReducer
   );
 
+  const { page, query } = useAppSearchParams();
+
   const { data: productsData } = useGetProductsByParamsQuery({
-    page: 1,
-    query: '',
+    page,
+    query,
   });
 
   useEffect(() => {

@@ -1,24 +1,20 @@
-import { useSearchParams } from 'react-router-dom';
-import styles from './pagination.module.css';
-// import { PRODUCTS_PER_PAGE } from '../../services/api';
-import { SEARCH_PARAMETERS } from '../../services/apiOld';
 import { PRODUCTS_PER_PAGE } from '../../services/api';
+import { useAppSearchParams } from '../../hooks/useAppSearchParams';
+import { useAppSelector } from '../../hooks/redux';
 
-type PaginationProps = {
-  totalProducts: number;
-};
+import styles from './pagination.module.css';
 
-export function Pagination({ totalProducts }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function Pagination() {
+  const { total } = useAppSelector((store) => store.productsReducer);
+  const { page, goToPage } = useAppSearchParams();
 
-  const page = 1; // Number(searchParams.get(SEARCH_PARAMETERS.page)) || 1;
-
-  const highestPageNumber = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
+  const highestPageNumber = Math.ceil(total / PRODUCTS_PER_PAGE);
 
   function handleGoToPage(pageNumber: number) {
-    searchParams.set(SEARCH_PARAMETERS.page, pageNumber.toString());
-    setSearchParams(searchParams);
+    goToPage(pageNumber);
   }
+
+  if (total === 0) return null;
 
   return (
     <>
@@ -57,8 +53,8 @@ export function Pagination({ totalProducts }: PaginationProps) {
           &#62;&#62;
         </button>
       </div>
-      <div className={styles.summary}>{`${totalProducts} product${
-        totalProducts > 1 ? 's' : ''
+      <div className={styles.summary}>{`${total} product${
+        total > 1 ? 's' : ''
       } found. Presented on ${highestPageNumber} page${
         highestPageNumber > 1 ? 's' : ''
       }`}</div>

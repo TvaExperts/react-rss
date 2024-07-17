@@ -10,6 +10,11 @@ export interface ProductsApiResponse {
   products: Product[];
 }
 
+export const SEARCH_PARAMETERS = {
+  page: 'page',
+  query: 'query',
+} as const;
+
 export interface AppSearchParams {
   page: number;
   query: string;

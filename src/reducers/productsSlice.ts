@@ -41,7 +41,6 @@ const ProductsSlice = createSlice({
       }
       state.total = payload.total;
       state.products = payload.products;
-      state.selectedProductsId = [];
       return state;
     },
     selectProduct(state, { payload }: PayloadAction<number>) {

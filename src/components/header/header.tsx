@@ -1,45 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
-// import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './header.module.css';
 
-import { Product } from '../../models/product';
 import { TEXTS } from '../../texts';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useAppSelector } from '../../hooks/redux';
+import { ROUTES } from '../../router/routes';
+import { SEARCH_PARAMETERS } from '../../services/api';
 
-interface HeaderProps {
-  setProducts: (data: Product[]) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setTotalProducts: (totalProducts: number) => void;
-  isLoading: boolean;
-}
+export function Header() {
+  const { query, isLoading } = useAppSelector((store) => store.productsReducer);
+  console.log(query);
+  const [inputQueryValue, setInputQueryValue] = useState<string>(query);
+  const navigate = useNavigate();
 
-export function Header({
-  setProducts,
-  setIsLoading,
-  isLoading,
-  setTotalProducts,
-}: HeaderProps) {
-  const { setQueryInLS, getQueryFromLS } = useLocalStorage();
+  function handleClickSearch() {
+    const trimmedValue = inputQueryValue.trim();
 
-  const [query, setQuery] = useState(getQueryFromLS());
-
-  // const [searchParams] = useSearchParams();
-
-  const page = 1; // Number(searchParams.get(SEARCH_PARAMETERS.page));
-
-  const handleClickFind = useCallback(async () => {
-    setIsLoading(true);
-    setQueryInLS(query);
-    // const { products, total } = await getProducts({ query, page });
-    // setTotalProducts(total);
-    // setProducts(products);
-    setIsLoading(false);
-    console.log('setProducts');
-  }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
-
-  useEffect(() => {
-    handleClickFind();
-  }, [page]);
+    if (trimmedValue !== query) {
+      const searchParams = new URLSearchParams();
+      searchParams.set(SEARCH_PARAMETERS.page, '1');
+      searchParams.set(SEARCH_PARAMETERS.query, trimmedValue);
+      navigate(`${ROUTES.HOME}?${searchParams.toString()}`);
+    }
+  }
 
   return (
     <header className={styles.header}>
@@ -47,14 +30,14 @@ export function Header({
         type="text"
         className={styles.findInput}
         placeholder={TEXTS.INPUT_PLACEHOLDER}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        value={inputQueryValue}
+        onChange={(event) => setInputQueryValue(event.target.value)}
         data-testid="search-input"
       />
       <button
         type="button"
         className={styles.searchButton}
-        onClick={handleClickFind}
+        onClick={handleClickSearch}
         disabled={isLoading}
         data-testid="search-button"
       >
