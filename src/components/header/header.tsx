@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styles from './header.module.css';
 
-import { TEXTS } from '../../texts';
+import { TEXTS } from '../../../public/texts';
 import { useAppSelector } from '../../hooks/redux';
-import { ROUTES } from '../../router/routes';
-import { SEARCH_PARAMETERS } from '../../services/api';
+
+import { useAppSearchParams } from '../../hooks/useAppSearchParams';
+import { productsActions } from '../../reducers/productsSlice';
 
 export function Header() {
-  const { query, isLoading } = useAppSelector((store) => store.productsReducer);
-  console.log(query);
+  const dispatch = useDispatch();
+
+  const { isLoading } = useAppSelector((store) => store.productsReducer);
+  const { query, handleNewSearch } = useAppSearchParams();
+
   const [inputQueryValue, setInputQueryValue] = useState<string>(query);
-  const navigate = useNavigate();
 
   function handleClickSearch() {
     const trimmedValue = inputQueryValue.trim();
-
     if (trimmedValue !== query) {
-      const searchParams = new URLSearchParams();
-      searchParams.set(SEARCH_PARAMETERS.page, '1');
-      searchParams.set(SEARCH_PARAMETERS.query, trimmedValue);
-      navigate(`${ROUTES.HOME}?${searchParams.toString()}`);
+      dispatch(productsActions.unselectAllProducts());
+      handleNewSearch(trimmedValue);
     }
   }
 

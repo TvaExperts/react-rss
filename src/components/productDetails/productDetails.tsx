@@ -1,25 +1,29 @@
-import React, { useRef } from 'react';
-
-import {
-  Await,
-  useLoaderData,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/redux';
+import { useGetProductByIdQuery } from '../../services/api';
+import { productActions } from '../../reducers/productSlice';
 import styles from './productDetails.module.css';
-
-import { TEXTS } from '../../texts';
 import { ROUTES } from '../../router/routes';
-import { Product } from '../../models/product';
-
-type LoaderData = {
-  productResponsePromise: Promise<Product>;
-};
+import { TEXTS } from '../../../public/texts';
 
 export function ProductDetails() {
-  const { productResponsePromise } = useLoaderData() as LoaderData;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
+
+  const { productId } = useParams();
+
+  const {
+    data: product,
+    isFetching,
+    isError,
+  } = useGetProductByIdQuery(productId || '1');
+
+  useEffect(() => {
+    dispatch(productActions.setProduct(product));
+  }, [dispatch, product]);
 
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -28,49 +32,40 @@ export function ProductDetails() {
   }
 
   function handleClickOverlay(eventTarget: EventTarget) {
+    console.log('dsf');
     if (eventTarget === overlayRef.current) handleCloseDetails();
   }
+
+  if (isFetching) {
+    return <p data-testid="details-loading">{TEXTS.LOADING}</p>;
+  }
+
+  if (isError || !product) {
+    return <p>{TEXTS.ERROR_TEXT}</p>;
+  }
+
+  const { title, description, images } = product;
 
   return (
     <div
       className={styles.overlay}
-      onClick={(e) => handleClickOverlay(e.target)}
+      onClick={(event) => handleClickOverlay(event.target)}
       ref={overlayRef}
       role="presentation"
     >
-      <article className={styles.productDetails} data-testid="product-details">
-        <React.Suspense
-          fallback={<p data-testid="details-loading">{TEXTS.LOADING}</p>}
+      <section className={styles.productDetails}>
+        <h2 data-testid="product-title">{title}</h2>
+        <p data-testid="product-description">{description}</p>
+        <img src={images[0]} alt={title} className={styles.productImage} />
+        <br />
+        <button
+          type="button"
+          onClick={handleCloseDetails}
+          data-testid="details-close"
         >
-          <Await
-            resolve={productResponsePromise}
-            errorElement={<p>{TEXTS.ERROR_TEXT}</p>}
-          >
-            {(productApiResponse: Product) => {
-              const { title, description, images } = productApiResponse;
-              return (
-                <>
-                  <h2 data-testid="product-title">{title}</h2>
-                  <p data-testid="product-description">{description}</p>
-                  <img
-                    src={images[0]}
-                    alt={title}
-                    className={styles.productImage}
-                  />
-                  <br />
-                  <button
-                    type="button"
-                    onClick={handleCloseDetails}
-                    data-testid="details-close"
-                  >
-                    Close
-                  </button>
-                </>
-              );
-            }}
-          </Await>
-        </React.Suspense>
-      </article>
+          Close
+        </button>
+      </section>
     </div>
   );
 }

@@ -31,9 +31,9 @@ const ProductsSlice = createSlice({
   reducers: {
     setProductsData(
       state,
-      { payload }: PayloadAction<ProductsApiResponse | null>
+      { payload }: PayloadAction<ProductsApiResponse | undefined>
     ) {
-      if (payload === null) {
+      if (payload === undefined) {
         state.total = 0;
         state.products = [];
         state.selectedProductsId = [];

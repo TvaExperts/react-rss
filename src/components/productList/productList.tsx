@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ProductCard } from '../productCard/productCard';
 
-import { TEXTS } from '../../texts';
+import { TEXTS } from '../../../public/texts';
 import { useAppSelector } from '../../hooks/redux';
 import { useGetProductsByParamsQuery } from '../../services/api';
 import { productsActions } from '../../reducers/productsSlice';
@@ -22,7 +22,7 @@ export function ProductList() {
   });
 
   useEffect(() => {
-    dispatch(productsActions.setProductsData(productsData || null));
+    dispatch(productsActions.setProductsData(productsData));
   }, [dispatch, productsData]);
 
   if (isLoading) {

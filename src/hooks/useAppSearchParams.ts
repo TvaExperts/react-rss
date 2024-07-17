@@ -8,11 +8,18 @@ export function useAppSearchParams() {
   const query = searchParams.get(SEARCH_PARAMETERS.query) || '';
 
   function goToPage(pageNumber: number) {
-    setSearchParams((prevParams) => {
-      prevParams.set(SEARCH_PARAMETERS.page, pageNumber.toString());
-      return prevParams;
+    setSearchParams((params) => {
+      params.set(SEARCH_PARAMETERS.page, pageNumber.toString());
+      return params;
     });
   }
 
-  return { page, query, goToPage };
+  function handleNewSearch(newQuery: string) {
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set(SEARCH_PARAMETERS.page, '1');
+    urlSearchParams.set(SEARCH_PARAMETERS.query, newQuery);
+    setSearchParams(urlSearchParams);
+  }
+
+  return { page, query, goToPage, handleNewSearch };
 }

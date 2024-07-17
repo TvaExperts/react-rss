@@ -1,5 +1,5 @@
 import React from 'react';
-import { TEXTS } from '../../texts';
+import { TEXTS } from '../../../public/texts';
 
 export function Fallback() {
   function handleReloadPage() {
