@@ -21,35 +21,37 @@ const initialState: ProductsState = {
   total: 0,
 };
 
-const ProductsSlice = createSlice({
+export const productsSlice = createSlice({
   name: 'products',
   initialState,
+  selectors: {
+    selectTotalProducts: (state) => state.total,
+    selectProducts: (state) => state.products,
+    selectIsLoading: (state) => state.isLoading,
+    selectSelectedProducts: (state) => state.selectedProductsId,
+  },
   reducers: {
     setProductsData(
       state,
       { payload }: PayloadAction<ProductsApiResponse | undefined>
     ) {
-      if (payload === undefined) {
+      if (payload) {
+        state.total = payload.total;
+        state.products = payload.products;
+      } else {
         state.total = 0;
         state.products = [];
         state.selectedProductsId = {};
-        return state;
       }
-      state.total = payload.total;
-      state.products = payload.products;
-      return state;
     },
     selectProduct(state, { payload }: PayloadAction<number>) {
       state.selectedProductsId[payload] = payload;
-      return state;
     },
     unselectProduct(state, { payload }: PayloadAction<number>) {
       state.selectedProductsId[payload] = undefined;
-      return state;
     },
     unselectAllProducts(state) {
       state.selectedProductsId = {};
-      return state;
     },
   },
   extraReducers: (builder) => {
@@ -81,6 +83,3 @@ const ProductsSlice = createSlice({
       );
   },
 });
-
-export const { reducer: productsReducer, actions: productsActions } =
-  ProductsSlice;

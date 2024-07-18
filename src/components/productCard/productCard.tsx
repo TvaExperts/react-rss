@@ -6,8 +6,8 @@ import styles from './productCard.module.css';
 import { Product } from '../../models/product';
 import { ROUTES } from '../../router/routes';
 
-import { productsActions } from '../../reducers/productsSlice';
-import { selectSelectedProducts, useAppSelector } from '../../store';
+import { productsSlice } from '../../reducers/productsSlice';
+import { useAppSelector } from '../../store';
 
 function stripHTMLTags(text: string) {
   return text.replace(/<[^>]*>/g, '');
@@ -19,7 +19,9 @@ export function ProductCard({ product }: { product: Product }) {
   const { id, description } = product;
 
   const dispatch = useDispatch();
-  const selectedProductsId = useAppSelector(selectSelectedProducts);
+  const selectedProductsId = useAppSelector(
+    productsSlice.selectors.selectSelectedProducts
+  );
 
   const isSelectedCard = !!selectedProductsId[id];
 
@@ -30,9 +32,9 @@ export function ProductCard({ product }: { product: Product }) {
 
   function toggleSelection() {
     if (isSelectedCard) {
-      dispatch(productsActions.unselectProduct(id));
+      dispatch(productsSlice.actions.unselectProduct(id));
     } else {
-      dispatch(productsActions.selectProduct(id));
+      dispatch(productsSlice.actions.selectProduct(id));
     }
   }
 

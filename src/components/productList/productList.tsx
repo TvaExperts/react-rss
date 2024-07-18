@@ -4,7 +4,7 @@ import { ProductCard } from '../productCard/productCard';
 
 import { TEXTS } from '../../../public/texts';
 import { useGetProductsByParamsQuery } from '../../services/api';
-import { productsActions } from '../../reducers/productsSlice';
+import { productsSlice } from '../../reducers/productsSlice';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
 export function ProductList() {
@@ -18,7 +18,7 @@ export function ProductList() {
   });
 
   useEffect(() => {
-    dispatch(productsActions.setProductsData(productsData));
+    dispatch(productsSlice.actions.setProductsData(productsData));
   }, [dispatch, productsData]);
 
   if (isFetching) {

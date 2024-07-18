@@ -1,20 +1,23 @@
+import { useSelector } from 'react-redux';
 import { PRODUCTS_PER_PAGE } from '../../services/api';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
 import styles from './pagination.module.css';
-import { selectTotalProducts, useAppSelector } from '../../store';
+import { productsSlice } from '../../reducers/productsSlice';
 
 export function Pagination() {
-  const total = useAppSelector(selectTotalProducts);
+  const totalProducts = useSelector(
+    productsSlice.selectors.selectTotalProducts
+  );
   const { page, goToPage } = useAppSearchParams();
 
-  const highestPageNumber = Math.ceil(total / PRODUCTS_PER_PAGE);
+  const highestPageNumber = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
   function handleGoToPage(pageNumber: number) {
     goToPage(pageNumber);
   }
 
-  if (total === 0) return null;
+  if (totalProducts === 0) return null;
 
   return (
     <>
@@ -53,8 +56,8 @@ export function Pagination() {
           &#62;&#62;
         </button>
       </div>
-      <div className={styles.summary}>{`${total} product${
-        total > 1 ? 's' : ''
+      <div className={styles.summary}>{`${totalProducts} product${
+        totalProducts > 1 ? 's' : ''
       } found. Presented on ${highestPageNumber} page${
         highestPageNumber > 1 ? 's' : ''
       }`}</div>

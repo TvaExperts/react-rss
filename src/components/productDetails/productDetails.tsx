@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../services/api';
-import { productActions } from '../../reducers/productSlice';
 import styles from './productDetails.module.css';
 import { ROUTES } from '../../router/routes';
 import { TEXTS } from '../../../public/texts';
 import { useAppDispatch } from '../../store';
+import { productDetailsSlice } from '../../reducers/productDetailsSlice';
 
 export function ProductDetails() {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ export function ProductDetails() {
   } = useGetProductByIdQuery(productId || '1');
 
   useEffect(() => {
-    dispatch(productActions.setProduct(product));
+    dispatch(productDetailsSlice.actions.setProduct(product));
   }, [dispatch, product]);
 
   const overlayRef = useRef<HTMLDivElement>(null);

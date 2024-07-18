@@ -5,13 +5,13 @@ import styles from './header.module.css';
 import { TEXTS } from '../../../public/texts';
 
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
-import { productsActions } from '../../reducers/productsSlice';
-import { selectIsLoadingProducts, useAppSelector } from '../../store';
+import { productsSlice } from '../../reducers/productsSlice';
+import { useAppSelector } from '../../store';
 
 export function Header() {
   const dispatch = useDispatch();
 
-  const isLoading = useAppSelector(selectIsLoadingProducts);
+  const isLoading = useAppSelector(productsSlice.selectors.selectIsLoading);
 
   const { query, handleNewSearch } = useAppSearchParams();
 
@@ -20,7 +20,7 @@ export function Header() {
   function handleClickSearch() {
     const trimmedValue = inputQueryValue.trim();
     if (trimmedValue !== query) {
-      dispatch(productsActions.unselectAllProducts());
+      dispatch(productsSlice.actions.unselectAllProducts());
       handleNewSearch(trimmedValue);
     }
   }
