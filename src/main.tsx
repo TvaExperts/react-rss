@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
-import ErrorBoundary from './components/errorBoundary/errorBoundary';
+import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import { Fallback } from './components/fallback/fallback';
 
 const rootElement = document.getElementById('root');

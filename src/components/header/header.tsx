@@ -1,94 +1,65 @@
-import React, { ChangeEvent } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 
-import { getQueryFromLS, saveNewQueryInLS } from '../../utils/localStorage';
-
 import { Product } from '../../models/product';
-import { getProductsFromApi } from '../../services/api';
+import { getProducts, SEARCH_PARAMETERS } from '../../services/api';
 import { TEXTS } from '../../texts';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
-type HeaderProps = {
-  setItems: (data: Product[]) => void;
+interface HeaderProps {
+  setProducts: (data: Product[]) => void;
   setIsLoading: (isLoading: boolean) => void;
+  setTotalProducts: (totalProducts: number) => void;
   isLoading: boolean;
-};
+}
 
-type HeaderState = {
-  query: string;
-  hasError: boolean;
-};
+export function Header({
+  setProducts,
+  setIsLoading,
+  isLoading,
+  setTotalProducts,
+}: HeaderProps) {
+  const { setQueryInLS, getQueryFromLS } = useLocalStorage();
 
-export class Header extends React.Component<HeaderProps, HeaderState> {
-  constructor(props: HeaderProps) {
-    super(props);
-    this.state = {
-      query: '',
-      hasError: false,
-    };
-  }
+  const [query, setQuery] = useState(getQueryFromLS());
 
-  componentDidMount() {
-    const queryInLS = getQueryFromLS();
-    this.setState({
-      query: queryInLS,
-    });
-    this.getData(queryInLS);
-  }
+  const [searchParams] = useSearchParams();
 
-  handleClickFind = async () => {
-    const { query } = this.state;
-    const queryInLS = getQueryFromLS();
-    const trimmedQuery = query.trim();
-    if (queryInLS !== trimmedQuery) {
-      this.getData(trimmedQuery);
-    }
-  };
+  const page = Number(searchParams.get(SEARCH_PARAMETERS.page));
 
-  handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleClickError = () => {
-    this.setState({ hasError: true });
-  };
-
-  getData(query: string) {
-    const { setItems, setIsLoading } = this.props;
+  const handleClickFind = useCallback(async () => {
     setIsLoading(true);
-    saveNewQueryInLS(query);
-    getProductsFromApi(query).then((data) => {
-      setItems(data.products);
-      setIsLoading(false);
-    });
-  }
+    setQueryInLS(query);
+    const { products, total } = await getProducts({ query, page });
+    setTotalProducts(total);
+    setProducts(products);
+    setIsLoading(false);
+  }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
 
-  render() {
-    const { query, hasError } = this.state;
-    const { isLoading } = this.props;
+  useEffect(() => {
+    handleClickFind();
+  }, [page]);
 
-    if (hasError) throw new Error(TEXTS.ERROR_TEXT);
-
-    return (
-      <header className={styles.header}>
-        <input
-          type="text"
-          className={styles.findInput}
-          placeholder={TEXTS.INPUT_PLACEHOLDER}
-          value={query}
-          onChange={this.handleQueryChange}
-        />
-        <button
-          type="button"
-          onClick={this.handleClickFind}
-          disabled={isLoading}
-        >
-          {isLoading ? TEXTS.BUTTON_FIND_LOADING : TEXTS.BUTTON_FIND}
-        </button>
-
-        <button type="button" onClick={this.handleClickError}>
-          {TEXTS.BUTTON_ERROR}
-        </button>
-      </header>
-    );
-  }
+  return (
+    <header className={styles.header}>
+      <input
+        type="text"
+        className={styles.findInput}
+        placeholder={TEXTS.INPUT_PLACEHOLDER}
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        data-testid="search-input"
+      />
+      <button
+        type="button"
+        className={styles.searchButton}
+        onClick={handleClickFind}
+        disabled={isLoading}
+        data-testid="search-button"
+      >
+        {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
+      </button>
+    </header>
+  );
 }
