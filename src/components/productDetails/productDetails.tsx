@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useGetProductByIdQuery } from '../../services/api';
 import styles from './productDetails.module.css';
 import { ROUTES } from '../../router/routes';
 import { TEXTS } from '../../../public/texts';
-import { useAppDispatch } from '../../store';
-import { productDetailsSlice } from '../../reducers/productDetailsSlice';
+import { productDetailsSlice } from '../../store/slices/productDetails.slice';
 
 export function ProductDetails() {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();

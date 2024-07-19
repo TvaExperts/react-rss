@@ -4,8 +4,8 @@ import { ProductCard } from '../productCard/productCard';
 
 import { TEXTS } from '../../../public/texts';
 import { useGetProductsByParamsQuery } from '../../services/api';
-import { productsSlice } from '../../reducers/productsSlice';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
+import { productsSlice } from '../../store/slices/products.slice';
 
 export function ProductList() {
   const dispatch = useDispatch();

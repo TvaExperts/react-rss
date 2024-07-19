@@ -2,8 +2,8 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { productApi, ProductsApiResponse } from '../services/api';
-import { Product } from '../models/product';
+import { productApi, ProductsApiResponse } from '../../services/api';
+import { Product } from '../../models/product';
 
 interface ProductsState {
   isLoading: boolean;

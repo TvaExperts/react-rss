@@ -3,7 +3,7 @@ import { PRODUCTS_PER_PAGE } from '../../services/api';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
 import styles from './pagination.module.css';
-import { productsSlice } from '../../reducers/productsSlice';
+import { productsSlice } from '../../store/slices/products.slice';
 
 export function Pagination() {
   const totalProducts = useSelector(

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { App } from './App';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import { Fallback } from './components/fallback/fallback';
-import { store } from './store';
+import { store } from './store/store';
 
 const rootElement = document.getElementById('root');
 

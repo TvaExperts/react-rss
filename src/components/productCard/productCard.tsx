@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './productCard.module.css';
 import { Product } from '../../models/product';
 import { ROUTES } from '../../router/routes';
 
-import { productsSlice } from '../../reducers/productsSlice';
-import { useAppSelector } from '../../store';
+import { productsSlice } from '../../store/slices/products.slice';
 
 function stripHTMLTags(text: string) {
   return text.replace(/<[^>]*>/g, '');
@@ -19,7 +18,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { id, description } = product;
 
   const dispatch = useDispatch();
-  const selectedProductsId = useAppSelector(
+  const selectedProductsId = useSelector(
     productsSlice.selectors.selectSelectedProducts
   );
 

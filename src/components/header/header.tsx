@@ -5,8 +5,9 @@ import styles from './header.module.css';
 import { TEXTS } from '../../../public/texts';
 
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
-import { productsSlice } from '../../reducers/productsSlice';
-import { useAppSelector } from '../../store';
+
+import { useAppSelector } from '../../store/store';
+import { productsSlice } from '../../store/slices/products.slice';
 
 export function Header() {
   const dispatch = useDispatch();

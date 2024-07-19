@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../models/product';
+import { Product } from '../../models/product';
 
 interface ProductState {
   isLoading: boolean;
