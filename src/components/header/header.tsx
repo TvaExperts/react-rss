@@ -8,9 +8,11 @@ import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
 import { useAppSelector } from '../../store/store';
 import { productsSlice } from '../../store/slices/products.slice';
+import { useTheme } from '../../context/themeContext';
 
 export function Header() {
   const dispatch = useDispatch();
+  const { toggleTheme, theme } = useTheme();
 
   const isLoading = useAppSelector(productsSlice.selectors.selectIsLoading);
 
@@ -27,7 +29,7 @@ export function Header() {
   }
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-theme={theme}>
       <input
         type="text"
         className={styles.findInput}
@@ -44,6 +46,9 @@ export function Header() {
         data-testid="search-button"
       >
         {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
+      </button>
+      <button type="button" onClick={toggleTheme}>
+        THEME
       </button>
     </header>
   );

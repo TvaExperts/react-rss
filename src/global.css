@@ -8,3 +8,13 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+[data-theme='dark'] {
+  --background-color: #222222;
+  --text-color: #ffffff;
+}
