@@ -6,6 +6,9 @@ import { TEXTS } from '../../../public/texts';
 import { useGetProductsByParamsQuery } from '../../services/api';
 import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 import { productsSlice } from '../../store/slices/products.slice';
+import { Pagination } from '../pagination/pagination';
+import { SelectionMenu } from '../selectionMenu/selectionMenu';
+import styles from './productList.module.css';
 
 export function ProductList() {
   const dispatch = useDispatch();
@@ -30,10 +33,14 @@ export function ProductList() {
   }
 
   return (
-    <ul>
-      {productsData.products.map((product) => {
-        return <ProductCard product={product} key={product.id} />;
-      })}
-    </ul>
+    <div className={styles.productList}>
+      <Pagination />
+      <ul>
+        {productsData.products.map((product) => {
+          return <ProductCard product={product} key={product.id} />;
+        })}
+      </ul>
+      <SelectionMenu />
+    </div>
   );
 }

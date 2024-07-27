@@ -23,6 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
   );
 
   const isSelectedCard = !!selectedProductsId[id];
+  console.log(isSelectedCard, id);
 
   const shortDescription =
     description && stripHTMLTags(description).slice(0, DESCRIPTION_LENGTH);
@@ -41,8 +42,8 @@ export function ProductCard({ product }: { product: Product }) {
     <li className={styles.block}>
       <input
         type="checkbox"
-        defaultChecked={isSelectedCard}
-        onClick={toggleSelection}
+        checked={isSelectedCard}
+        onChange={toggleSelection}
       />
       <Link to={`${ROUTES.PRODUCT}/${product.id}?${queryParams.toString()}`}>
         <span className={styles.title} data-testid="item-title">
