@@ -18,12 +18,11 @@ export function ProductCard({ product }: { product: Product }) {
   const { id, description } = product;
 
   const dispatch = useDispatch();
-  const selectedProductsId = useSelector(
+  const selectedProducts = useSelector(
     productsSlice.selectors.selectSelectedProducts
   );
 
-  const isSelectedCard = !!selectedProductsId[id];
-  console.log(isSelectedCard, id);
+  const isSelectedCard = !!selectedProducts[id];
 
   const shortDescription =
     description && stripHTMLTags(description).slice(0, DESCRIPTION_LENGTH);
@@ -34,7 +33,7 @@ export function ProductCard({ product }: { product: Product }) {
     if (isSelectedCard) {
       dispatch(productsSlice.actions.unselectProduct(id));
     } else {
-      dispatch(productsSlice.actions.selectProduct(id));
+      dispatch(productsSlice.actions.selectProduct(product));
     }
   }
 

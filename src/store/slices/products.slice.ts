@@ -10,14 +10,14 @@ interface ProductsState {
   isError: boolean;
   total: number;
   products: Product[];
-  selectedProductsId: Record<number, number | undefined>;
+  selectedProducts: Record<number, Product | undefined>;
 }
 
 const initialState: ProductsState = {
   isLoading: false,
   isError: false,
   products: [],
-  selectedProductsId: {},
+  selectedProducts: {},
   total: 0,
 };
 
@@ -28,7 +28,7 @@ export const productsSlice = createSlice({
     selectTotalProducts: (state) => state.total,
     selectProducts: (state) => state.products,
     selectIsLoading: (state) => state.isLoading,
-    selectSelectedProducts: (state) => state.selectedProductsId,
+    selectSelectedProducts: (state) => state.selectedProducts,
   },
   reducers: {
     setProductsData(
@@ -41,17 +41,17 @@ export const productsSlice = createSlice({
       } else {
         state.total = 0;
         state.products = [];
-        state.selectedProductsId = {};
+        state.selectedProducts = {};
       }
     },
-    selectProduct(state, { payload }: PayloadAction<number>) {
-      state.selectedProductsId[payload] = payload;
+    selectProduct(state, { payload }: PayloadAction<Product>) {
+      state.selectedProducts[payload.id] = payload;
     },
     unselectProduct(state, { payload }: PayloadAction<number>) {
-      state.selectedProductsId[payload] = undefined;
+      state.selectedProducts[payload] = undefined;
     },
     unselectAllProducts(state) {
-      state.selectedProductsId = {};
+      state.selectedProducts = {};
     },
   },
   extraReducers: (builder) => {

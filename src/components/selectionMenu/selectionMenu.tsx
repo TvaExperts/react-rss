@@ -9,21 +9,39 @@ export function SelectionMenu() {
 
   const { query } = useAppSearchParams();
 
-  const selectedItems = useAppSelector(
+  const selectedProductsRecord = useAppSelector(
     productsSlice.selectors.selectSelectedProducts
   );
 
-  const selectedItemsQuantity = Object.values(selectedItems).filter(
+  const selectedProducts = Object.values(selectedProductsRecord).filter(
     (v) => v !== undefined
-  ).length;
+  );
 
-  if (selectedItemsQuantity === 0) {
+  if (selectedProducts.length === 0) {
     return null;
   }
 
+  function createExportingData() {
+    const header = `id;title;description;image path`;
+    const data = Object.values(selectedProducts)
+      .filter((p) => !!p)
+      .map((product) => {
+        return `${product.id};${product?.title};${product?.description};${product?.images}`;
+      })
+      .join('\n');
+    return `${header}\n${data}`;
+  }
+
   function handleDownloadList() {
-    const fileName = `${query.trim() ? `Products with query ${query.trim()}` : 'All products'}, ${selectedItemsQuantity} item ${selectedItemsQuantity !== 1 ? 's' : ''}`;
-    console.log(fileName);
+    const filename = `${query.trim() ? `Products with query ${query.trim()}` : 'All products'}, ${selectedProducts.length} item${selectedProducts.length > 1 ? 's' : ''}`;
+    const data = createExportingData();
+    const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   function unselectAllItems() {
@@ -32,10 +50,10 @@ export function SelectionMenu() {
 
   return (
     <div className={styles.selectionMenu}>
-      <p>{`Selected: ${selectedItemsQuantity} items`}</p>
       <button onClick={unselectAllItems} type="button">
         Unselect all
       </button>
+      <p>{`Selected: ${selectedProducts.length} item${selectedProducts.length > 1 ? 's' : ''}`}</p>
       <button onClick={handleDownloadList} type="button">
         Download
       </button>
