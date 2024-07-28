@@ -4,8 +4,6 @@
   gap: 20px;
   padding: 20px;
   justify-content: center;
-  background-color: var(--background-color);
-  color: var(--text-color);
 }
 
 .findInput {

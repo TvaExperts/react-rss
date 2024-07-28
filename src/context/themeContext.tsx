@@ -2,6 +2,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -36,6 +37,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }),
     [theme, toggleTheme]
   );
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={contextValue}>
