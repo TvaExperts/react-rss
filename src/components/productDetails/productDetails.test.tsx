@@ -1,27 +1,26 @@
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { renderWithRouter } from '../../tests/helpers/renderWithRouter';
 import { routes } from '../../router/router';
 import { ROUTES } from '../../router/routes';
 import { mockOneProduct } from '../../tests/mocks/mockOneProduct';
+import { renderWithRouterReduxContext } from '../../tests/helpers/renderWithRouterReduxContext';
 
 describe('Tests for the Detailed Card component', () => {
-  it('Check that a loading indicator is displayed while fetching data', async () => {
-    renderWithRouter(null, `/`, routes);
-
-    const links = await screen.findAllByRole('link');
-    await userEvent.click(links[0]);
+  it('Should renders with loader status when open details page', async () => {
+    renderWithRouterReduxContext(null, {
+      routes,
+      path: `${ROUTES.PRODUCT}/${mockOneProduct.id}`,
+    });
 
     const loadingElement = await screen.findByTestId('details-loading');
     expect(loadingElement).toBeInTheDocument();
   });
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
-    const { findByTestId } = renderWithRouter(
-      null,
-      `${ROUTES.PRODUCT}/${mockOneProduct.id}`,
-      routes
-    );
+    const { findByTestId } = renderWithRouterReduxContext(null, {
+      routes,
+      path: `${ROUTES.PRODUCT}/${mockOneProduct.id}`,
+    });
 
     const title = await findByTestId('product-title');
     const description = await findByTestId('product-description');
@@ -30,14 +29,15 @@ describe('Tests for the Detailed Card component', () => {
     expect(description.textContent).toBe(mockOneProduct.description);
   });
 
-  it('Ensure that clicking the close button hides the component ', async () => {
-    renderWithRouter(null, `${ROUTES.PRODUCT}/${mockOneProduct.id}`, routes);
+  it('Should close page when click button close ', async () => {
+    const { findByTestId } = renderWithRouterReduxContext(null, {
+      routes,
+      path: `${ROUTES.PRODUCT}/${mockOneProduct.id}`,
+    });
 
-    const closeButton = await screen.findByTestId('details-close');
-
-    expect(closeButton).toBeInTheDocument();
-
-    expect(screen.queryByTestId('product-details')).toBeInTheDocument();
+    const productTitle = await findByTestId('product-title');
+    expect(productTitle).toBeInTheDocument();
+    const closeButton = await findByTestId('details-close');
 
     await userEvent.click(closeButton);
 

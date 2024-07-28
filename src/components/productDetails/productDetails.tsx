@@ -52,7 +52,7 @@ export function ProductDetails() {
       ref={overlayRef}
       role="presentation"
     >
-      <section className={styles.productDetails}>
+      <section className={styles.productDetails} data-testid="product-details">
         <h2 data-testid="product-title">{title}</h2>
         <p data-testid="product-description">{description}</p>
         <img src={images[0]} alt={title} className={styles.productImage} />

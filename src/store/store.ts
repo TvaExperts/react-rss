@@ -4,7 +4,7 @@ import { productApi } from '../services/api';
 import { productsSlice } from './slices/products.slice';
 import { productDetailsSlice } from './slices/productDetails.slice';
 
-function setupStore(initialState = {}) {
+export function setupStore(initialState = {}) {
   return configureStore({
     reducer: {
       [productsSlice.name]: productsSlice.reducer,
