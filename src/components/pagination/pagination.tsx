@@ -1,22 +1,23 @@
-import { useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { PRODUCTS_PER_PAGE } from '../../services/api';
+import { useAppSearchParams } from '../../hooks/useAppSearchParams';
+
 import styles from './pagination.module.css';
-import { PRODUCTS_PER_PAGE, SEARCH_PARAMETERS } from '../../services/api';
+import { productsSlice } from '../../store/slices/products.slice';
 
-type PaginationProps = {
-  totalProducts: number;
-};
-
-export function Pagination({ totalProducts }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const page = Number(searchParams.get(SEARCH_PARAMETERS.page)) || 1;
+export function Pagination() {
+  const totalProducts = useSelector(
+    productsSlice.selectors.selectTotalProducts
+  );
+  const { page, goToPage } = useAppSearchParams();
 
   const highestPageNumber = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
   function handleGoToPage(pageNumber: number) {
-    searchParams.set(SEARCH_PARAMETERS.page, pageNumber.toString());
-    setSearchParams(searchParams);
+    goToPage(pageNumber);
   }
+
+  if (totalProducts === 0) return null;
 
   return (
     <>

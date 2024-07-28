@@ -4,7 +4,7 @@ import {
   useNavigate,
   useRouteError,
 } from 'react-router-dom';
-import { TEXTS } from '../../texts';
+import { TEXTS } from '../../../public/texts';
 import { ROUTES } from '../../router/routes';
 
 export function ErrorPage() {

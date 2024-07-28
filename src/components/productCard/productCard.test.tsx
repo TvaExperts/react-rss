@@ -1,31 +1,25 @@
 import { screen } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
 import { vi } from 'vitest';
-import { RouteObject } from 'react-router-dom';
-import { renderWithRouter } from '../../tests/helpers/renderWithRouter';
-import { DESCRIPTION_LENGTH, ProductCard } from './productCard';
-import { mockOneProduct } from '../../tests/mocks/mockOneProduct';
+import { DESCRIPTION_LENGTH } from './productCard';
 import { routes } from '../../router/router';
+import * as api from '../../services/api';
+import { renderWithRouterReduxContext } from '../../tests/helpers/renderWithRouterReduxContext';
+import { mockArrOf30Products } from '../../tests/mocks/mockArrOf30Products';
 
 describe('Tests for the Card component', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  it('Should renders product title and short description', async () => {
+    const { findAllByTestId } = renderWithRouterReduxContext(null, {
+      routes,
+    });
 
-  it('Ensure that the card component renders the relevant card data', () => {
-    const routerObject: RouteObject = {
-      element: <ProductCard product={mockOneProduct} />,
-      path: '/',
-    };
-    const { getByTestId } = renderWithRouter(routerObject);
-
-    const titleElement = getByTestId('item-title');
+    const titleElement = (await findAllByTestId('item-title'))[0];
     expect(titleElement).toHaveTextContent(
-      new RegExp(mockOneProduct.title, 'i')
+      new RegExp(mockArrOf30Products[0].title, 'i')
     );
 
-    const descriptionElement = getByTestId('item-description');
-    const shortDescription = mockOneProduct.description.slice(
+    const descriptionElement = (await findAllByTestId('item-description'))[0];
+    const shortDescription = mockArrOf30Products[0].description.slice(
       0,
       DESCRIPTION_LENGTH
     );
@@ -34,35 +28,36 @@ describe('Tests for the Card component', () => {
     );
   });
 
-  it('Validate that clicking on a card opens a detailed card component', async () => {
-    const routerObject: RouteObject = {
-      element: <ProductCard product={mockOneProduct} />,
-      path: '/',
-    };
-    const { getByRole } = renderWithRouter(routerObject, '/', routes);
+  it('Should opens a detailed card component when click title', async () => {
+    const { findAllByRole, queryByTestId } = renderWithRouterReduxContext(
+      null,
+      {
+        routes,
+      }
+    );
 
-    const linkElement = getByRole('link');
-    await userEvent.click(linkElement);
-    const detailsElement = await screen.findByTestId('product-details');
-    expect(detailsElement).toBeInTheDocument();
+    const titleLinkElement = (await findAllByRole('link'))[0];
+
+    let detailsPage = queryByTestId('product-details');
+    expect(detailsPage).not.toBeInTheDocument();
+
+    await userEvent.click(titleLinkElement);
+
+    detailsPage = await screen.findByTestId('product-details');
+    expect(detailsPage).toBeInTheDocument();
   });
 
   it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
-    const mockResponse = new Response(JSON.stringify(mockOneProduct), {
-      status: 200,
+    const fetchFn = vi.spyOn(api, 'useGetProductByIdQuery');
+
+    const { findAllByRole } = renderWithRouterReduxContext(null, {
+      routes,
     });
 
-    const fetchMock = vi.fn(() => Promise.resolve(mockResponse));
-    global.fetch = fetchMock;
+    const titleLinkElement = (await findAllByRole('link'))[0];
+    await userEvent.click(titleLinkElement);
 
-    const routerObject: RouteObject = {
-      element: <ProductCard product={mockOneProduct} />,
-      path: '/',
-    };
-    const { getByRole } = renderWithRouter(routerObject, '/', routes);
-
-    const linkElement = getByRole('link');
-    await userEvent.click(linkElement);
-    expect(fetchMock).toHaveBeenCalled();
+    await screen.findByTestId('product-details');
+    expect(fetchFn).toHaveBeenCalled();
   });
 });

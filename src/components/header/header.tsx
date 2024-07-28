@@ -1,64 +1,54 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './header.module.css';
 
-import { Product } from '../../models/product';
-import { getProducts, SEARCH_PARAMETERS } from '../../services/api';
-import { TEXTS } from '../../texts';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { TEXTS } from '../../../public/texts';
 
-interface HeaderProps {
-  setProducts: (data: Product[]) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setTotalProducts: (totalProducts: number) => void;
-  isLoading: boolean;
-}
+import { useAppSearchParams } from '../../hooks/useAppSearchParams';
 
-export function Header({
-  setProducts,
-  setIsLoading,
-  isLoading,
-  setTotalProducts,
-}: HeaderProps) {
-  const { setQueryInLS, getQueryFromLS } = useLocalStorage();
+import { useAppSelector } from '../../store/store';
+import { productsSlice } from '../../store/slices/products.slice';
+import { useTheme } from '../../context/themeContext';
 
-  const [query, setQuery] = useState(getQueryFromLS());
+export function Header() {
+  const dispatch = useDispatch();
+  const { toggleTheme, theme } = useTheme();
 
-  const [searchParams] = useSearchParams();
+  const isLoading = useAppSelector(productsSlice.selectors.selectIsLoading);
 
-  const page = Number(searchParams.get(SEARCH_PARAMETERS.page));
+  const { query, handleNewSearch } = useAppSearchParams();
 
-  const handleClickFind = useCallback(async () => {
-    setIsLoading(true);
-    setQueryInLS(query);
-    const { products, total } = await getProducts({ query, page });
-    setTotalProducts(total);
-    setProducts(products);
-    setIsLoading(false);
-  }, [setIsLoading, setQueryInLS, query, page, setTotalProducts, setProducts]);
+  const [inputQueryValue, setInputQueryValue] = useState<string>(query);
 
-  useEffect(() => {
-    handleClickFind();
-  }, [page]);
+  function handleClickSearch() {
+    const trimmedValue = inputQueryValue.trim();
+    if (trimmedValue !== query) {
+      dispatch(productsSlice.actions.unselectAllProducts());
+      handleNewSearch(trimmedValue);
+    }
+  }
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-theme={theme}>
       <input
         type="text"
         className={styles.findInput}
         placeholder={TEXTS.INPUT_PLACEHOLDER}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        value={inputQueryValue}
+        onChange={(event) => setInputQueryValue(event.target.value)}
         data-testid="search-input"
       />
       <button
         type="button"
         className={styles.searchButton}
-        onClick={handleClickFind}
+        onClick={handleClickSearch}
         disabled={isLoading}
         data-testid="search-button"
       >
         {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
+      </button>
+      <button type="button" onClick={toggleTheme}>
+        THEME
       </button>
     </header>
   );
