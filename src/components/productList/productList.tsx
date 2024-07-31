@@ -4,6 +4,7 @@ import { ProductsApiResponse } from '@/services/api';
 import { Product } from '@/models/product';
 import { ProductCard } from '@/components/productCard/productCard';
 import { Pagination } from '@/components/pagination/pagination';
+import { Flyout } from '@/components/flyout/Flyout';
 import styles from './productList.module.css';
 
 import { TEXTS } from '../../../public/texts';
@@ -27,6 +28,7 @@ export function ProductList({
           return <ProductCard product={product} key={product.id} />;
         })}
       </ul>
+      <Flyout />
     </div>
   );
 }

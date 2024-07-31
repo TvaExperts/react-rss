@@ -8,6 +8,7 @@ enum TEXTS {
   TRY_AGAIN = 'Try again!',
   MAIN_LOADING = 'Loading data...',
   NOT_FOUND = 'Nothing was found, make another request',
+  BUTTON_CLOSE = 'Close',
 }
 
 export { TEXTS };

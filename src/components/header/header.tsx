@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@/context/themeContext';
-import { productsSlice } from '@/store/slices/products.slice';
 import { useRouter } from 'next/router';
 import {
   createSearchParams,
   getAppSearchParamsFromQuery,
 } from '@/utils/searchParams';
 import { ROUTES } from '@/routes/routes';
+import { selectedProductsSlice } from '@/store/slices/selectedProducts.slice';
 import styles from './header.module.css';
 
 import { TEXTS } from '../../../public/texts';
 
 export function Header() {
   const dispatch = useDispatch();
-  const { toggleTheme, theme } = useTheme();
-
-  const isLoading = useSelector(productsSlice.selectors.selectIsLoading);
+  const { toggleTheme } = useTheme();
 
   const router = useRouter();
   const { page, query } = getAppSearchParamsFromQuery(router.query);
@@ -26,7 +24,7 @@ export function Header() {
   function handleClickSearch() {
     const trimmedValue = inputQueryValue.trim();
     if (trimmedValue !== query) {
-      dispatch(productsSlice.actions.unselectAllProducts());
+      dispatch(selectedProductsSlice.actions.unselectAllProducts());
 
       const newSearchParams = createSearchParams({
         query: trimmedValue,
@@ -51,10 +49,9 @@ export function Header() {
         type="button"
         className={styles.searchButton}
         onClick={handleClickSearch}
-        disabled={isLoading}
         data-testid="search-button"
       >
-        {isLoading ? TEXTS.LOADING : TEXTS.BUTTON_FIND}
+        {TEXTS.BUTTON_FIND}
       </button>
       <button type="button" onClick={toggleTheme}>
         THEME
