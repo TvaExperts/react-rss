@@ -14,10 +14,11 @@ import { TEXTS } from '../../../public/texts';
 
 export function Header() {
   const dispatch = useDispatch();
+
   const { toggleTheme } = useTheme();
 
   const router = useRouter();
-  const { page, query } = getAppSearchParamsFromQuery(router.query);
+  const { query } = getAppSearchParamsFromQuery(router.query);
 
   const [inputQueryValue, setInputQueryValue] = useState<string>(query);
 
@@ -54,7 +55,7 @@ export function Header() {
         {TEXTS.BUTTON_FIND}
       </button>
       <button type="button" onClick={toggleTheme}>
-        THEME
+        {TEXTS.BUTTON_THEME}
       </button>
     </header>
   );

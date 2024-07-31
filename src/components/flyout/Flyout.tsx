@@ -8,6 +8,7 @@ import styles from './flyout.module.css';
 import {
   getFilenameForExport,
   getFlyoutDescription,
+  TEXTS,
 } from '../../../public/texts';
 
 export function Flyout() {
@@ -44,11 +45,11 @@ export function Flyout() {
   return (
     <div className={styles.flyout}>
       <button onClick={unselectAllItems} type="button">
-        Unselect all
+        {TEXTS.UNSELECT_ALL}
       </button>
       <p>{getFlyoutDescription(selectedProducts.length)}</p>
       <button onClick={handleDownloadList} type="button">
-        Download
+        {TEXTS.DOWNLOAD}
       </button>
     </div>
   );

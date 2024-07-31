@@ -5,7 +5,7 @@ import { Header } from '@/components/header/header';
 
 type MainContainerProps = {
   productsApiResponse: ProductsApiResponse;
-  children: React.ReactNode | undefined;
+  children?: React.ReactNode;
 };
 
 export function MainContainer({
@@ -13,12 +13,12 @@ export function MainContainer({
   productsApiResponse,
 }: MainContainerProps) {
   return (
-    <>
+    <div>
       <Header />
       <main>
         <ProductList productsApiResponse={productsApiResponse} />
         {children}
       </main>
-    </>
+    </div>
   );
 }

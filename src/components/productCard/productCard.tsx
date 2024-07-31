@@ -13,10 +13,6 @@ import styles from './productCard.module.css';
 export const DESCRIPTION_LENGTH = 50;
 
 export function ProductCard({ product }: { product: Product }) {
-  const { id, description } = product;
-
-  const shortDescription = `${description.slice(0, DESCRIPTION_LENGTH)}...`;
-
   const router = useRouter();
   const appSearchParams = getAppSearchParamsFromQuery(router.query);
 
@@ -24,6 +20,8 @@ export function ProductCard({ product }: { product: Product }) {
   const selectedProducts = useSelector(
     selectedProductsSlice.selectors.selectSelectedProducts
   );
+
+  const { id, description } = product;
 
   const isSelectedCard = !!selectedProducts[id];
 
@@ -34,6 +32,10 @@ export function ProductCard({ product }: { product: Product }) {
       dispatch(selectedProductsSlice.actions.selectProduct(product));
     }
   }
+
+  const shortDescription = description
+    ? `${description.slice(0, DESCRIPTION_LENGTH)}...`
+    : 'No description';
 
   return (
     <li className={styles.block}>
@@ -49,9 +51,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.title}
         </span>
       </Link>
-      <span data-testid="item-description">
-        {shortDescription || 'No description'}...
-      </span>
+      <span data-testid="item-description">{shortDescription}</span>
     </li>
   );
 }
