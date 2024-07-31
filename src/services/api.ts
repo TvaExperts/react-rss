@@ -1,23 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Product } from '@/models/product';
+import { AppSearchParams, PRODUCTS_PER_PAGE } from '@/models/searchParams';
 
 export const BASE_URL = 'https://dummyjson.com/products';
-
-export const PRODUCTS_PER_PAGE = 15;
 
 export interface ProductsApiResponse {
   total: number;
   products: Product[];
-}
-
-export const SEARCH_PARAMETERS = {
-  page: 'page',
-  query: 'query',
-} as const;
-
-export interface AppSearchParams {
-  page: number;
-  query: string;
 }
 
 export const productApi = createApi({

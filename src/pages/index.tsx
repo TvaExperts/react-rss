@@ -1,12 +1,18 @@
 import { wrapper } from '@/store/store';
 import {
-  AppSearchParams,
   getRunningQueriesThunk,
   productApi,
+  ProductsApiResponse,
 } from '@/services/api';
-import MainContainer from '../components/mainContainer/mainContainer';
+import {
+  createSearchParams,
+  getAppSearchParamsFromQuery,
+  isEmptySearchParams,
+} from '@/utils/searchParams';
+import { AppSearchParams } from '@/models/searchParams';
+import { MainContainer } from '@/components/mainContainer/mainContainer';
 
-export default function Home({ data }) {
+export default function Home({ data }: { data: ProductsApiResponse }) {
   return <MainContainer productsApiResponse={data} />;
 }
 
@@ -26,7 +32,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
 
     const { data } = await store.dispatch(
-      productApi.endpoints.getSearchProductsOnPage.initiate(appSearchParams)
+      productApi.endpoints.getProductsByParams.initiate(appSearchParams)
     );
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 

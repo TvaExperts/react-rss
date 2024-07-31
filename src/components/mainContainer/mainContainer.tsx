@@ -1,5 +1,6 @@
 import React from 'react';
 import { ProductsApiResponse } from '@/services/api';
+import { ProductList } from '@/components/productList/productList';
 import { Header } from '../header/header';
 
 type MainContainerProps = {
@@ -7,20 +8,18 @@ type MainContainerProps = {
   children?: React.ReactNode;
 };
 
-function MainContainer({ children, productsApiResponse }: MainContainerProps) {
+export function MainContainer({
+  children,
+  productsApiResponse,
+}: MainContainerProps) {
   console.log(productsApiResponse);
   return (
     <>
       <Header />
       <main>
-        {/* <ProductList productsApiResponse={productsApiResponse} /> */}
+        <ProductList productsApiResponse={productsApiResponse} />
         {children}
       </main>
     </>
   );
 }
-
-MainContainer.defaultProps = {
-  children: null,
-};
-export default MainContainer;
