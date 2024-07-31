@@ -13,14 +13,12 @@ import styles from './productCard.module.css';
 export const DESCRIPTION_LENGTH = 50;
 
 export function ProductCard({ product }: { product: Product }) {
-  const shortDescription = `${product.description.slice(
-    0,
-    DESCRIPTION_LENGTH
-  )}...`;
+  const { id, description } = product;
+
+  const shortDescription = `${description.slice(0, DESCRIPTION_LENGTH)}...`;
+
   const router = useRouter();
   const appSearchParams = getAppSearchParamsFromQuery(router.query);
-
-  const { id, description } = product;
 
   const dispatch = useDispatch();
   const selectedProducts = useSelector(

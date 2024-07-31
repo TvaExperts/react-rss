@@ -21,7 +21,7 @@ export function ProductList({
   }
 
   return (
-    <div className={styles.productListBlock}>
+    <div className={styles.productList}>
       <Pagination total={total} />
       <ul>
         {products.map((product: Product) => {

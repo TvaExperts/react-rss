@@ -1,11 +1,11 @@
 import React from 'react';
 import { ProductsApiResponse } from '@/services/api';
 import { ProductList } from '@/components/productList/productList';
-import { Header } from '../header/header';
+import { Header } from '@/components/header/header';
 
 type MainContainerProps = {
   productsApiResponse: ProductsApiResponse;
-  children?: React.ReactNode;
+  children: React.ReactNode | undefined;
 };
 
 export function MainContainer({

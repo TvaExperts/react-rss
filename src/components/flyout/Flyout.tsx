@@ -5,6 +5,10 @@ import { selectedProductsSlice } from '@/store/slices/selectedProducts.slice';
 import { convertProductsToCsvData } from '@/utils/productsToCsv';
 import { exportCsvFile } from '@/utils/exportCsvFile';
 import styles from './flyout.module.css';
+import {
+  getFilenameForExport,
+  getFlyoutDescription,
+} from '../../../public/texts';
 
 export function Flyout() {
   const dispatch = useDispatch();
@@ -25,7 +29,10 @@ export function Flyout() {
   }
 
   function handleDownloadList() {
-    const filename = `${query.trim() ? `Products with query ${query.trim()}` : 'All products'}, ${selectedProducts.length} item${selectedProducts.length > 1 ? 's' : ''}`;
+    const filename = getFilenameForExport(
+      query.trim(),
+      selectedProducts.length
+    );
     const data = convertProductsToCsvData(selectedProducts);
     exportCsvFile(filename, data);
   }
@@ -39,7 +46,7 @@ export function Flyout() {
       <button onClick={unselectAllItems} type="button">
         Unselect all
       </button>
-      <p>{`Selected: ${selectedProducts.length} item${selectedProducts.length > 1 ? 's' : ''}`}</p>
+      <p>{getFlyoutDescription(selectedProducts.length)}</p>
       <button onClick={handleDownloadList} type="button">
         Download
       </button>

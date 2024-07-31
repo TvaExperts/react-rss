@@ -7,6 +7,7 @@ import {
 import { ROUTES } from '@/routes/routes';
 import { PRODUCTS_PER_PAGE } from '@/models/searchParams';
 import styles from './paginatiom.module.css';
+import { getPaginationDescription } from '../../../public/texts';
 
 export function Pagination({ total }: { total: number }) {
   const router = useRouter();
@@ -20,7 +21,7 @@ export function Pagination({ total }: { total: number }) {
       page: pageNumber,
     });
 
-    router.push(`${ROUTES.home}?${newSearchParams.toString()}`);
+    router.push(`${ROUTES.home}?${newSearchParams}`);
   }
 
   return (
@@ -60,11 +61,9 @@ export function Pagination({ total }: { total: number }) {
           &#62;&#62;
         </button>
       </div>
-      <div className={styles.summary}>{`${total} product${
-        total > 1 ? 's' : ''
-      } found. Presented on ${highestPageNumber} page${
-        highestPageNumber > 1 ? 's' : ''
-      }`}</div>
+      <p className={styles.summary}>
+        {getPaginationDescription(total, highestPageNumber)}
+      </p>
     </>
   );
 }

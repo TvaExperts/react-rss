@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTheme } from '@/context/themeContext';
 import { useRouter } from 'next/router';
 import {
@@ -28,10 +28,10 @@ export function Header() {
 
       const newSearchParams = createSearchParams({
         query: trimmedValue,
-        page,
+        page: 1,
       });
 
-      router.push(`${ROUTES.home}?${newSearchParams.toString()}`);
+      router.push(`${ROUTES.home}?${newSearchParams}`);
     }
   }
 
