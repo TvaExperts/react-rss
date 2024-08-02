@@ -38,11 +38,12 @@ export function ProductCard({ product }: { product: Product }) {
     : 'No description';
 
   return (
-    <li className={styles.block}>
+    <li className={styles.block} data-testid="product-card">
       <input
         type="checkbox"
         checked={isSelectedCard}
         onChange={toggleSelection}
+        data-testid="select-product"
       />
       <Link
         href={`${ROUTES.product}/${product.id}?${createSearchParams(appSearchParams)}`}

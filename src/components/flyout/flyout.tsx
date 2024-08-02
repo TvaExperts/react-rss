@@ -43,7 +43,7 @@ export function Flyout() {
   }
 
   return (
-    <div className={styles.flyout}>
+    <div className={styles.flyout} data-testid="flyout">
       <button onClick={unselectAllItems} type="button">
         {TEXTS.UNSELECT_ALL}
       </button>

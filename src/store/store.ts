@@ -16,6 +16,8 @@ export function setupStore(initialState = {}) {
   });
 }
 
+export const store = setupStore();
+
 export type RootState = ReturnType<typeof setupStore>;
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

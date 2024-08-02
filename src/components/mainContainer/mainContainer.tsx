@@ -13,12 +13,12 @@ export function MainContainer({
   productsApiResponse,
 }: MainContainerProps) {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <ProductList productsApiResponse={productsApiResponse} />
         {children}
       </main>
-    </div>
+    </>
   );
 }

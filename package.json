@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "eslint src --fix --color",
     "test": "vitest run",
-    "coverage": "npx vitest run --coverage"
+    "coverage": "npx vitest run --coverage",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "npm run lint"
+    ]
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -21,6 +27,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -33,7 +40,9 @@
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.4",
     "jsdom": "^24.1.1",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "typescript": "^5",
     "vitest": "^2.0.5"

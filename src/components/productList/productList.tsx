@@ -4,7 +4,7 @@ import { ProductsApiResponse } from '@/services/api';
 import { Product } from '@/models/product';
 import { ProductCard } from '@/components/productCard/productCard';
 import { Pagination } from '@/components/pagination/pagination';
-import { Flyout } from '@/components/flyout/Flyout';
+import { Flyout } from '@/components/flyout/flyout';
 import styles from './productList.module.css';
 
 import { TEXTS } from '../../../public/texts';
@@ -17,7 +17,11 @@ export function ProductList({
   const { products, total } = productsApiResponse;
 
   if (total === 0) {
-    return <div className={styles.productListBlock}>{TEXTS.NOT_FOUND}</div>;
+    return (
+      <div className={styles.productListBlock} data-testid="not-found">
+        {TEXTS.NOT_FOUND}
+      </div>
+    );
   }
 
   return (
