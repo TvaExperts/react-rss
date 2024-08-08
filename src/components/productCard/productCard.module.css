@@ -1,13 +1,13 @@
 .block {
-  background-color: beige;
-  border: aqua solid 1px;
-  padding: 10px;
-  margin: 10px 0;
-  display: flex;
-  column-gap: 20px;
+    border: aqua solid 1px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    column-gap: 20px;
+    background-color: var(--background-color-control);
+    color: var(--text-color);
 }
 
 .title {
-  font-weight: 700;
-  color: blue;
+    font-weight: 700;
 }

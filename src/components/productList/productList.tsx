@@ -1,27 +1,38 @@
 import React from 'react';
-import { ProductCard } from '../productCard/productCard';
-import { Product } from '../../models/product';
-import { TEXTS } from '../../texts';
 
-type ProductListProps = {
-  products: Product[];
-  isLoading: boolean;
-};
+import { ProductsApiResponse } from '@/services/api';
+import { Product } from '@/models/product';
+import { ProductCard } from '@/components/productCard/productCard';
+import { Pagination } from '@/components/pagination/pagination';
+import { Flyout } from '@/components/flyout/flyout';
+import styles from './productList.module.css';
 
-export function ProductList({ products, isLoading }: ProductListProps) {
-  if (isLoading) {
-    return <p>{TEXTS.MAIN_LOADING}</p>;
-  }
+import { TEXTS } from '../../../public/texts';
 
-  if (products.length === 0) {
-    return <p>{TEXTS.NOT_FOUND}</p>;
+export function ProductList({
+  productsApiResponse,
+}: {
+  productsApiResponse: ProductsApiResponse;
+}) {
+  const { products, total } = productsApiResponse;
+
+  if (total === 0) {
+    return (
+      <div className={styles.productListBlock} data-testid="not-found">
+        {TEXTS.NOT_FOUND}
+      </div>
+    );
   }
 
   return (
-    <ul>
-      {products.map((product) => {
-        return <ProductCard product={product} key={product.id} />;
-      })}
-    </ul>
+    <div className={styles.productList}>
+      <Pagination total={total} />
+      <ul>
+        {products.map((product: Product) => {
+          return <ProductCard product={product} key={product.id} />;
+        })}
+      </ul>
+      <Flyout />
+    </div>
   );
 }

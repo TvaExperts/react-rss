@@ -1,21 +1,27 @@
-import { useSearchParams } from 'react-router-dom';
-import styles from './pagination.module.css';
-import { PRODUCTS_PER_PAGE, SEARCH_PARAMETERS } from '../../services/api';
+import React from 'react';
+import { useRouter } from 'next/router';
+import {
+  createSearchParams,
+  getAppSearchParamsFromQuery,
+} from '@/utils/searchParams';
+import { ROUTES } from '@/routes/routes';
+import { PRODUCTS_PER_PAGE } from '@/models/searchParams';
+import styles from './paginatiom.module.css';
+import { getPaginationDescription } from '../../../public/texts';
 
-type PaginationProps = {
-  totalProducts: number;
-};
+export function Pagination({ total }: { total: number }) {
+  const router = useRouter();
+  const { page, query } = getAppSearchParamsFromQuery(router.query);
 
-export function Pagination({ totalProducts }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const page = Number(searchParams.get(SEARCH_PARAMETERS.page)) || 1;
-
-  const highestPageNumber = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
+  const highestPageNumber = Math.ceil(total / PRODUCTS_PER_PAGE);
 
   function handleGoToPage(pageNumber: number) {
-    searchParams.set(SEARCH_PARAMETERS.page, pageNumber.toString());
-    setSearchParams(searchParams);
+    const newSearchParams = createSearchParams({
+      query,
+      page: pageNumber,
+    });
+
+    router.push(`${ROUTES.home}?${newSearchParams}`);
   }
 
   return (
@@ -55,11 +61,9 @@ export function Pagination({ totalProducts }: PaginationProps) {
           &#62;&#62;
         </button>
       </div>
-      <div className={styles.summary}>{`${totalProducts} product${
-        totalProducts > 1 ? 's' : ''
-      } found. Presented on ${highestPageNumber} page${
-        highestPageNumber > 1 ? 's' : ''
-      }`}</div>
+      <p className={styles.summary}>
+        {getPaginationDescription(total, highestPageNumber)}
+      </p>
     </>
   );
 }
